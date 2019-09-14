@@ -1,4 +1,5 @@
 # danger-action
+![](https://github.com/MeilCli/danger-action/workflows/CI/badge.svg)  
 This repository is danger for GitHub Actions.
 
 ## Required
@@ -21,4 +22,4 @@ Recommendation: set up Ruby 2.6 or higher
   - danger id is an identifier string, example(`danger-pr`, `danger-CI`, etc..)
 
 ## License
-MIT License.
+[MIT License](LICENSE).
