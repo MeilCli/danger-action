@@ -1,4 +1,5 @@
 # danger-action
+![](https://github.com/MeilCli/danger-action/workflows/CI/badge.svg)  
 This repository is danger for GitHub Actions.
 
 ## Required
