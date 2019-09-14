@@ -1,6 +1,12 @@
 name: CI
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:    
+    - master
+  pull_request:
+    branches:
+    - master
 
 jobs:
   build:
@@ -10,7 +16,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: npm install, build, and test
+    - name: npm install and build
       run: |
         npm install
         npm run build
@@ -18,16 +24,19 @@ jobs:
         CI: true
   danger:
     runs-on: ubuntu-latest
-    if: github.event == 'pull_request'
     steps:
     - uses: actions/checkout@v1
+      if: github.event == 'pull_request'
     - uses: actions/setup-node@v1
+      if: github.event == 'pull_request'
       with:
         node-version: 12.x
     - uses: actions/setup-ruby@v1
+      if: github.event == 'pull_request'
       with:
         ruby-version: '2.6'
     - uses: MeilCli/danger-action@master
+      if: github.event == 'pull_request'
       with:
         plugins_file: 'Gemfile'
         danger_file: 'Dangerfile'
