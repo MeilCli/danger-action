@@ -25,7 +25,7 @@ async function checkEnvironment() {
 
 async function installDanger(option: Option) {
     await exec.exec(
-        `gem install danger --version '${option.dangerVersion}'`,
+        `gem install danger --version "${option.dangerVersion}"`,
         undefined,
         { failOnStdErr: true }
     );
