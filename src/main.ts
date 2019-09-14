@@ -45,7 +45,7 @@ async function ignoreRubyWarning() {
 
 async function runDanger(option: Option) {
     await exec.exec(
-        `danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId} --silent=true`,
+        `danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`,
         undefined,
         { failOnStdErr: true }
     );
