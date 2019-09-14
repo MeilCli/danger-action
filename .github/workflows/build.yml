@@ -1,0 +1,34 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build
+      env:
+        CI: true
+  danger:
+    runs-on: ubuntu-latest
+    if: github.event == 'pull_request'
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+    - uses: MeilCli/danger-action@master
+      with:
+        plugins_file: 'Gemfile'
+        danger_file: 'Dangerfile'
+        danger_id: 'danger-pr'
