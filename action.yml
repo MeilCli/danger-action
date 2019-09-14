@@ -4,7 +4,7 @@ author: 'MeilCli'
 inputs:
   danger_version:
     description: 'danger version'
-    default: '~> 6.0'
+    default: '>= 6.0.0'
   plugins_file:
     description: 'gemfile for danger plugin'
   danger_file:
