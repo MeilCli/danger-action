@@ -21,7 +21,7 @@ Recommendation: set up Ruby 2.6 or higher
   - required
   - danger id is an identifier string, example(`danger-pr`, `danger-CI`, etc..)
 
-## Contribute
+## Build
 - Node.js v12
 
 ## License
