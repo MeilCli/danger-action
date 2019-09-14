@@ -15,7 +15,7 @@ async function getOption(): Promise<Option> {
         pluginsFile: core.getInput("plugins_file"),
         dangerFile: core.getInput("danger_file", { required: true }),
         dangerId: core.getInput("danger_id", { required: true })
-    }
+    };
 }
 
 async function checkEnvironment() {
