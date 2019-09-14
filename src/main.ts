@@ -40,7 +40,7 @@ async function installDanger(option: Option) {
 
 async function runDanger(option: Option) {
     await exec.exec(
-        `danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`,
+        `danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId} --silent=true`,
         undefined,
         { failOnStdErr: true }
     );
