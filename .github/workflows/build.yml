@@ -35,6 +35,12 @@ jobs:
       if: github.event_name  == 'pull_request'
       with:
         ruby-version: '2.6'
+    - name: npm install
+      if: github.event_name  == 'pull_request'
+      run: |
+        npm install
+      env:
+        CI: true
     - uses: MeilCli/danger-action@master
       if: github.event_name  == 'pull_request'
       with:
