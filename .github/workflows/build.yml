@@ -1,6 +1,12 @@
 name: CI
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:    
+    - master
+  pull_request:
+    branches:
+    - master
 
 jobs:
   build:
@@ -10,7 +16,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: npm install, build, and test
+    - name: npm install and build
       run: |
         npm install
         npm run build
