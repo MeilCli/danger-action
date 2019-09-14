@@ -22,4 +22,4 @@ Recommendation: set up Ruby 2.6 or higher
   - danger id is an identifier string, example(`danger-pr`, `danger-CI`, etc..)
 
 ## License
-MIT License.
+[MIT License](LICENSE).
