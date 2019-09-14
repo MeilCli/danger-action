@@ -1,6 +1,6 @@
-import * as core from '@actions/core';
-import * as exec from '@actions/exec';
-import * as io from '@actions/io';
+import * as core from "@actions/core";
+import * as exec from "@actions/exec";
+import * as io from "@actions/io";
 
 interface Option {
     readonly dangerVersion: string;
