@@ -1,0 +1,21 @@
+{
+  "name": "danger-action",
+  "version": "1.0.0",
+  "description": "Danger action for GitHub actions",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.1.0",
+    "@actions/exec": "^1.0.1",
+    "@actions/io": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "typescript": "^3.6.3"
+  }
+}
