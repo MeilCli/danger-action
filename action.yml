@@ -1,8 +1,9 @@
 name: 'Danger action'
 description: 'run danger'
 author: 'MeilCli'
-icon: zap
-color: red
+branding:
+  icon: zap
+  color: red
 inputs:
   danger_version:
     description: 'danger version'
