@@ -3,7 +3,7 @@ name: Check Package
 on: 
   schedule:
     #- cron: '0 8 * * 5'
-    - cron: '30 * * * *'
+    - cron: '34 * * * *'
 jobs:
   npm:
     runs-on: ubuntu-latest
@@ -13,7 +13,7 @@ jobs:
     - uses: MeilCli/npm-update-check-action@master
       id: outdated
     - uses: 8398a7/action-slack@v2
-      if: steps.outdated.outputs.has_npm_update != 'false
+      if: steps.outdated.outputs.has_npm_update != 'false'
       with:
         status: ${{ job.status }}
         text: ${{ steps.outdated.outputs.npm_update_text }}
