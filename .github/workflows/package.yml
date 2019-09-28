@@ -3,7 +3,7 @@ name: Check Package
 on: 
   schedule:
     #- cron: '0 8 * * 5'
-    - cron: '13 * * * *'
+    - cron: '17 * * * *'
 jobs:
   npm:
     runs-on: ubuntu-latest
@@ -15,7 +15,9 @@ jobs:
     - uses: 8398a7/action-slack@v2
       if: steps.outdated.outputs.has_npm_update
       with:
+        status: ${{ job.status }}
         text: ${{ steps.outdated.outputs.npm_update_text }}
+        author_name: GitHub Actions
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
