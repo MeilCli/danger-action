@@ -3,7 +3,7 @@ name: Check Package
 on: 
   schedule:
     #- cron: '0 8 * * 5'
-    - cron: '8 * * * *'
+    - cron: '13 * * * *'
 jobs:
   npm:
     runs-on: ubuntu-latest
