@@ -3,12 +3,13 @@ name: Check Package
 on: 
   schedule:
     #- cron: '0 8 * * 5'
-    - cron: '59 * * * *'
+    - cron: '3 * * * *'
 jobs:
   npm:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - run: npm install
     - uses: MeilCli/npm-update-check-action@master
       id: outdated
     - uses: 8398a7/action-slack@v2
