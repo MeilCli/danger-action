@@ -2,8 +2,7 @@ name: Check Package
 
 on: 
   schedule:
-    #- cron: '0 8 * * 5'
-    - cron: '34 * * * *'
+    - cron: '0 8 * * 5'
 jobs:
   npm:
     runs-on: ubuntu-latest
