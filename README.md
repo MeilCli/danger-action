@@ -1,7 +1,6 @@
 # danger-action
 ![](https://github.com/MeilCli/danger-action/workflows/CI/badge.svg)  
 JavaScript based running [danger](https://github.com/danger/danger) action for GitHub Actions.  
-**This action is unofficial.**
 
 ## Required
 This action must set-up [Ruby](https://github.com/actions/setup-ruby) and Bundler.
@@ -25,7 +24,7 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
-      - uses: MeilCli/danger-action@v1
+      - uses: MeilCli/danger-action@v2
         with:
           plugins_file: 'Gemfile'
           danger_file: 'Dangerfile'
