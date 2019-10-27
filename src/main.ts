@@ -10,9 +10,13 @@ interface Option {
 }
 
 async function getOption(): Promise<Option> {
+    let pluginsFile: string | null = core.getInput("plugins_file");
+    if (pluginsFile.length == 0) {
+        pluginsFile = null;
+    }
     return {
         dangerVersion: core.getInput("danger_version", { required: true }),
-        pluginsFile: core.getInput("plugins_file"),
+        pluginsFile,
         dangerFile: core.getInput("danger_file", { required: true }),
         dangerId: core.getInput("danger_id", { required: true })
     };
@@ -24,17 +28,9 @@ async function checkEnvironment() {
 }
 
 async function installDanger(option: Option) {
-    await exec.exec(
-        `gem install danger --version "${option.dangerVersion}"`,
-        undefined,
-        { failOnStdErr: true }
-    );
+    await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
     if (option.pluginsFile != null) {
-        await exec.exec(
-            `bundle install --gemfile=${option.pluginsFile}`,
-            undefined,
-            { failOnStdErr: true }
-        );
+        await exec.exec(`bundle install --gemfile=${option.pluginsFile}`, undefined, { failOnStdErr: true });
     }
 }
 
@@ -44,11 +40,9 @@ async function ignoreRubyWarning() {
 }
 
 async function runDanger(option: Option) {
-    await exec.exec(
-        `danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`,
-        undefined,
-        { failOnStdErr: true }
-    );
+    await exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
+        failOnStdErr: true
+    });
 }
 
 async function run() {
