@@ -1,5 +1,5 @@
 name: 'Danger action'
-description: 'Run danger, unofficial action'
+description: 'Run danger'
 author: 'MeilCli'
 branding:
   icon: zap
