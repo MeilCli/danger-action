@@ -6,7 +6,6 @@ on:
       - master
   pull_request:
     branches:
-      - update
       - master
 
 jobs:
@@ -46,7 +45,7 @@ jobs:
           ${{ runner.os }}-gems-
     - name: Bundle config
       run: bundle config path vendor/bundle
-    - uses: MeilCli/danger-action@update
+    - uses: MeilCli/danger-action@master
       with:
         plugins_file: 'Gemfile'
         danger_file: 'Dangerfile'
