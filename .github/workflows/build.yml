@@ -3,16 +3,16 @@ name: CI
 on: 
   push:
     branches:    
-    - master
+      - master
   pull_request:
     branches:
-    - master
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request'
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
@@ -34,10 +34,17 @@ jobs:
       with:
         ruby-version: '2.6'
     - name: npm install
-      run: |
-        npm install
+      run: npm install
       env:
         CI: true
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - name: Bundle config
+      run: bundle config path vendor/bundle
     - uses: MeilCli/danger-action@master
       with:
         plugins_file: 'Gemfile'
