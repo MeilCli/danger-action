@@ -1,28 +1,28 @@
 {
-  "name": "danger-action",
-  "version": "1.0.0",
-  "description": "Danger action for GitHub actions",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint src/main.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@actions/core": "^1.2.0",
-    "@actions/exec": "^1.0.1",
-    "@actions/io": "^1.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^12.11.7",
-    "@typescript-eslint/eslint-plugin": "^2.5.0",
-    "@typescript-eslint/parser": "^2.5.0",
-    "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2",
-    "typescript": "^3.6.4"
-  }
+    "name": "danger-action",
+    "version": "1.0.0",
+    "description": "Danger action for GitHub actions",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "lint": "eslint src/main.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "@actions/core": "^1.2.0",
+        "@actions/exec": "^1.0.1",
+        "@actions/io": "^1.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^12.11.7",
+        "@typescript-eslint/eslint-plugin": "^2.5.0",
+        "@typescript-eslint/parser": "^2.5.0",
+        "eslint": "^6.6.0",
+        "eslint-config-prettier": "^6.5.0",
+        "eslint-plugin-prettier": "^3.1.1",
+        "prettier": "^1.18.2",
+        "typescript": "^3.6.4"
+    }
 }
