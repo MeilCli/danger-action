@@ -7,6 +7,7 @@ interface Option {
     readonly pluginsFile: string | null;
     readonly dangerFile: string;
     readonly dangerId: string;
+    readonly failOnStdErrWhenDanger: boolean;
 }
 
 async function getOption(): Promise<Option> {
@@ -18,7 +19,8 @@ async function getOption(): Promise<Option> {
         dangerVersion: core.getInput("danger_version", { required: true }),
         pluginsFile,
         dangerFile: core.getInput("danger_file", { required: true }),
-        dangerId: core.getInput("danger_id", { required: true })
+        dangerId: core.getInput("danger_id", { required: true }),
+        failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true"
     };
 }
 
@@ -45,14 +47,14 @@ async function ignoreRubyWarning() {
 async function runDanger(option: Option) {
     if (option.pluginsFile == null) {
         await exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
-            failOnStdErr: true
+            failOnStdErr: option.failOnStdErrWhenDanger
         });
     } else {
         await exec.exec(
             `bundle exec danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`,
             undefined,
             {
-                failOnStdErr: true
+                failOnStdErr: option.failOnStdErrWhenDanger
             }
         );
     }
