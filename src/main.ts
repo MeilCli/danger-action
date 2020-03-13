@@ -45,7 +45,6 @@ async function ignoreRubyWarning() {
 }
 
 async function runDanger(option: Option) {
-    core.info(`failOnStdErr ${option.failOnStdErrWhenDanger}`);
     if (option.pluginsFile == null) {
         await exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
             failOnStdErr: option.failOnStdErrWhenDanger
