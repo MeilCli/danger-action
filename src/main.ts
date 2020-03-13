@@ -28,8 +28,9 @@ async function checkEnvironment() {
 }
 
 async function installDanger(option: Option) {
-    await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
-    if (option.pluginsFile != null) {
+    if (option.pluginsFile == null) {
+        await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
+    } else {
         await exec.exec(`bundle install --gemfile=${option.pluginsFile}`, undefined, { failOnStdErr: true });
     }
 }
@@ -40,9 +41,19 @@ async function ignoreRubyWarning() {
 }
 
 async function runDanger(option: Option) {
-    await exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
-        failOnStdErr: true
-    });
+    if (option.pluginsFile == null) {
+        await exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
+            failOnStdErr: true
+        });
+    } else {
+        await exec.exec(
+            `bundle exec danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`,
+            undefined,
+            {
+                failOnStdErr: true
+            }
+        );
+    }
 }
 
 async function run() {
