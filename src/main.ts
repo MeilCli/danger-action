@@ -31,7 +31,9 @@ async function installDanger(option: Option) {
     if (option.pluginsFile == null) {
         await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
     } else {
-        await exec.exec(`bundle install --gemfile=${option.pluginsFile}`, undefined, { failOnStdErr: true });
+        await exec.exec(`bundle install --gemfile=${option.pluginsFile} --jobs 4 --retry 3`, undefined, {
+            failOnStdErr: true
+        });
     }
 }
 
