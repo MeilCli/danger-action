@@ -45,7 +45,7 @@ async function installDanger(option: Option) {
             });
         } else {
             await exec.exec(
-                `bundle install --gemfile=${option.pluginsFile} -path=${option.installPath} --jobs 4 --retry 3`,
+                `bundle install --gemfile=${option.pluginsFile} --path=${option.installPath} --jobs 4 --retry 3`,
                 undefined,
                 {
                     failOnStdErr: true
