@@ -9,7 +9,9 @@ inputs:
     description: 'danger version'
     default: '>= 6.0.0'
   plugins_file:
-    description: 'gemfile for danger plugin'
+    description: 'gemfile for danger plugin. if set plugins_file, action do not exec gem install '
+  install_path:
+    description: 'bundle install path'
   danger_file:
     description: 'dangerfile for danger'
     required: true

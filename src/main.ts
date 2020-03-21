@@ -5,6 +5,7 @@ import * as io from "@actions/io";
 interface Option {
     readonly dangerVersion: string;
     readonly pluginsFile: string | null;
+    readonly installPath: string | null;
     readonly dangerFile: string;
     readonly dangerId: string;
     readonly failOnStdErrWhenDanger: boolean;
@@ -15,9 +16,14 @@ async function getOption(): Promise<Option> {
     if (pluginsFile.length == 0) {
         pluginsFile = null;
     }
+    let installPath: string | null = core.getInput("install_path");
+    if (installPath.length == 0) {
+        installPath = null;
+    }
     return {
         dangerVersion: core.getInput("danger_version", { required: true }),
         pluginsFile,
+        installPath,
         dangerFile: core.getInput("danger_file", { required: true }),
         dangerId: core.getInput("danger_id", { required: true }),
         failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true"
@@ -33,9 +39,19 @@ async function installDanger(option: Option) {
     if (option.pluginsFile == null) {
         await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
     } else {
-        await exec.exec(`bundle install --gemfile=${option.pluginsFile} --jobs 4 --retry 3`, undefined, {
-            failOnStdErr: true
-        });
+        if (option.installPath == null) {
+            await exec.exec(`bundle install --gemfile=${option.pluginsFile} --jobs 4 --retry 3`, undefined, {
+                failOnStdErr: true
+            });
+        } else {
+            await exec.exec(
+                `bundle install --gemfile=${option.pluginsFile} -path=${option.installPath} --jobs 4 --retry 3`,
+                undefined,
+                {
+                    failOnStdErr: true
+                }
+            );
+        }
     }
 }
 
