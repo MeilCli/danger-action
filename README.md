@@ -25,19 +25,16 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6'
-    # ↓↓↓ if using bundle cache when danger plugins install ↓↓↓
     - uses: actions/cache@v1
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile') }} # change your gemfile path
         restore-keys: |
           ${{ runner.os }}-gems-
-    - name: Bundle config
-      run: bundle config path vendor/bundle
-    # ↑↑↑ if using bundle cache when danger plugins install ↑↑↑
-    - uses: MeilCli/danger-action@v3
+    - uses: MeilCli/danger-action@v4
       with:
         plugins_file: 'Gemfile'
+        install_path: 'vendor/bundle'
         danger_file: 'Dangerfile'
         danger_id: 'danger-pr'
       env:
@@ -52,6 +49,9 @@ jobs:
 - `plugins_file`
   - optional
   - gemfile path for danger plugin. if set plugins_file, action do not exec `gem install danger`
+- `install_path`
+  - optional
+  - bundle install path, Useful instead of `bundle config path`
 - `danger_file`
   - required
   - dangerfile path for running danger
@@ -68,6 +68,41 @@ jobs:
   - required
   - GitHub Token using by Danger
   - recommendation value: `${{ secrets.GITHUB_TOKEN }}`
+
+## Additional Example
+```yml
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+      
+jobs:
+  danger:
+    runs-on: ubuntu-latest
+    if: github.event_name  == 'pull_request' # if only run pull request when multiple trigger workflow
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('.github/Gemfile') }} # change your gemfile path
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - uses: MeilCli/danger-action@v4
+      with:
+        plugins_file: '.github/Gemfile'
+        install_path: 'vendor/bundle'
+        danger_file: '.github/Dangerfile'
+        danger_id: 'danger-pr'
+      env:
+        DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+danger-action can escape path of `Gemfile`. so you can put Gemfile on no-current directory.
 
 ## License
 [MIT License](LICENSE).
