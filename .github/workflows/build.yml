@@ -33,6 +33,8 @@ jobs:
           ${{ runner.os }}-build-gems-
     - name: Bundle config
       run: bundle config path vendor/bundle
+    - name: Bundle config
+      run: bundle config path .github/vendor/bundle
     - uses: MeilCli/danger-action@update
       continue-on-error: true
       with:
@@ -43,6 +45,7 @@ jobs:
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: bundle config
+    - run: bundle list
   danger:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request'
