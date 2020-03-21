@@ -31,11 +31,10 @@ jobs:
         key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
         restore-keys: |
           ${{ runner.os }}-build-gems-
-    - name: Bundle config
-      run: bundle config path vendor/bundle
     - uses: MeilCli/danger-action@master
       with:
         plugins_file: '.github/Gemfile'
+        install_path: 'vendor/bundle'
         danger_file: '.github/Dangerfile'
         danger_id: 'danger-build'
       env:
