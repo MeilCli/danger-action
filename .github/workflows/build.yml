@@ -27,12 +27,12 @@ jobs:
         CI: true
     - uses: actions/cache@v1
       with:
-        path: .github/vendor/bundle
+        path: vendor/bundle
         key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
         restore-keys: |
           ${{ runner.os }}-build-gems-
     - name: Bundle config
-      run: bundle config path .github/vendor/bundle
+      run: bundle config path vendor/bundle
     - uses: MeilCli/danger-action@master
       with:
         plugins_file: '.github/Gemfile'
