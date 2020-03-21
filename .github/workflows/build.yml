@@ -1,8 +1,8 @@
 name: CI
 
-on: 
+on:
   push:
-    branches:    
+    branches:
       - master
   pull_request:
     branches:
@@ -12,67 +12,60 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.6'
-    - name: npm install and build
-      run: |
-        npm install
-        npm run build
-      env:
-        CI: true
-    - uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
-        restore-keys: |
-          ${{ runner.os }}-build-gems-
-    - name: Bundle config
-      run: bundle config path vendor/bundle
-    - name: Bundle config
-      run: bundle config path .github/vendor/bundle
-    - uses: MeilCli/danger-action@update
-      continue-on-error: true
-      with:
-        plugins_file: '.github/Gemfile'
-        install_path: '../vendor/bundle'
-        danger_file: '.github/Dangerfile'
-        danger_id: 'danger-build'
-      env:
-        DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: bundle config
-    - run: bundle list
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build
+        env:
+          CI: true
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-build-gems-
+      - uses: MeilCli/danger-action@update
+        with:
+          plugins_file: 'Gemfile2'
+          install_path: 'vendor/bundle'
+          danger_file: 'Dangerfile2'
+          danger_id: 'danger-build'
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   danger:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request'
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.6'
-    - name: npm install
-      run: npm install
-      env:
-        CI: true
-    - uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-danger-gems-${{ hashFiles('Gemfile') }}
-        restore-keys: |
-          ${{ runner.os }}-danger-gems-
-    - name: Bundle config
-      run: bundle config path vendor/bundle
-    - uses: MeilCli/danger-action@master
-      with:
-        plugins_file: 'Gemfile'
-        danger_file: 'Dangerfile'
-        danger_id: 'danger-pr'
-      env:
-        DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: npm install
+        run: npm install
+        env:
+          CI: true
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-danger-gems-${{ hashFiles('Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-danger-gems-
+      - name: Bundle config
+        run: bundle config path vendor/bundle
+      - uses: MeilCli/danger-action@master
+        with:
+          plugins_file: 'Gemfile'
+          danger_file: 'Dangerfile'
+          danger_id: 'danger-pr'
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
