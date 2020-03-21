@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
           restore-keys: |
             ${{ runner.os }}-build-gems-
-      - uses: MeilCli/danger-action@update
+      - uses: MeilCli/danger-action@master
         with:
           plugins_file: '.github/Gemfile'
           install_path: 'vendor/bundle'
