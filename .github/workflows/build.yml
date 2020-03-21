@@ -16,6 +16,9 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
     - name: npm install and build
       run: |
         npm install
