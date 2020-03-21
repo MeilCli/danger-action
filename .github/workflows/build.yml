@@ -28,14 +28,14 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-build-gems-${{ hashFiles('Gemfile2') }}
+          key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
           restore-keys: |
             ${{ runner.os }}-build-gems-
       - uses: MeilCli/danger-action@update
         with:
-          plugins_file: 'Gemfile2'
+          plugins_file: '.github/Gemfile'
           install_path: 'vendor/bundle'
-          danger_file: 'Dangerfile2'
+          danger_file: '.github/Dangerfile'
           danger_id: 'danger-build'
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}

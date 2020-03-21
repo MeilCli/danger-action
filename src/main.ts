@@ -1,6 +1,9 @@
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
 import * as io from "@actions/io";
+import * as process from "process";
+import * as path from "path";
+import * as fs from "fs";
 
 interface Option {
     readonly dangerVersion: string;
@@ -10,6 +13,9 @@ interface Option {
     readonly dangerId: string;
     readonly failOnStdErrWhenDanger: boolean;
 }
+
+const escapeGemfilePath = path.join(process.env.HOME as string, "danger-action", "Gemfile");
+const escapeGemfileLockPath = path.join(process.env.HOME as string, "danger-action", "Gemfile.lock");
 
 async function getOption(): Promise<Option> {
     let pluginsFile: string | null = core.getInput("plugins_file");
@@ -35,22 +41,35 @@ async function checkEnvironment() {
     await io.which("bundle", true);
 }
 
+async function escapeGemfile(option: Option) {
+    if (
+        option.pluginsFile == null ||
+        option.pluginsFile.toLowerCase() == "gemfile" ||
+        option.pluginsFile.toLowerCase() == "gemfile.lock"
+    ) {
+        return;
+    }
+    if (fs.existsSync("Gemfile")) {
+        io.mv("Gemfile", escapeGemfilePath);
+    }
+    if (fs.existsSync("Gemfile.lock")) {
+        io.mv("Gemfile.lock", escapeGemfileLockPath);
+    }
+    io.cp(option.pluginsFile, "Gemfile");
+}
+
 async function installDanger(option: Option) {
     if (option.pluginsFile == null) {
         await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
     } else {
         if (option.installPath == null) {
-            await exec.exec(`bundle install --gemfile=${option.pluginsFile} --jobs 4 --retry 3`, undefined, {
+            await exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
                 failOnStdErr: true
             });
         } else {
-            await exec.exec(
-                `bundle install --gemfile=${option.pluginsFile} --path=${option.installPath} --jobs 4 --retry 3`,
-                undefined,
-                {
-                    failOnStdErr: true
-                }
-            );
+            await exec.exec(`bundle install --path=${option.installPath} --jobs 4 --retry 3`, undefined, {
+                failOnStdErr: true
+            });
         }
     }
 }
@@ -76,13 +95,24 @@ async function runDanger(option: Option) {
     }
 }
 
+async function unescapeGemfile() {
+    if (fs.existsSync(escapeGemfilePath)) {
+        io.mv(escapeGemfilePath, "Gemfile");
+    }
+    if (fs.existsSync(escapeGemfileLockPath)) {
+        io.mv(escapeGemfileLockPath, "Gemfile.lock");
+    }
+}
+
 async function run() {
     try {
         await checkEnvironment();
         const option = await getOption();
+        await escapeGemfile(option);
         await installDanger(option);
         await ignoreRubyWarning();
         await runDanger(option);
+        await unescapeGemfile();
     } catch (error) {
         core.setFailed(error.message);
     }
