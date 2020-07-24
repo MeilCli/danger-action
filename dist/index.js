@@ -1025,7 +1025,7 @@ function getOption() {
             installPath,
             dangerFile: core.getInput("danger_file", { required: true }),
             dangerId: core.getInput("danger_id", { required: true }),
-            failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true"
+            failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true",
         };
     });
 }
@@ -1059,12 +1059,12 @@ function installDanger(option) {
         else {
             if (option.installPath == null) {
                 yield exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
-                    failOnStdErr: true
+                    failOnStdErr: true,
                 });
             }
             else {
                 yield exec.exec(`bundle install --path=${option.installPath} --jobs 4 --retry 3`, undefined, {
-                    failOnStdErr: true
+                    failOnStdErr: true,
                 });
             }
         }
@@ -1080,12 +1080,12 @@ function runDanger(option) {
     return __awaiter(this, void 0, void 0, function* () {
         if (option.pluginsFile == null) {
             yield exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
-                failOnStdErr: option.failOnStdErrWhenDanger
+                failOnStdErr: option.failOnStdErrWhenDanger,
             });
         }
         else {
             yield exec.exec(`bundle exec danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
-                failOnStdErr: option.failOnStdErrWhenDanger
+                failOnStdErr: option.failOnStdErrWhenDanger,
             });
         }
     });
