@@ -1,6 +1,6 @@
 # danger-action
 ![](https://github.com/MeilCli/danger-action/workflows/CI/badge.svg)  
-JavaScript based running [danger](https://github.com/danger/danger) action for GitHub Actions.  
+Execute [danger](https://github.com/danger/danger) action for GitHub Actions.  
 
 ## Required
 This action must set-up [Ruby](https://github.com/actions/setup-ruby) and Bundler.
