@@ -31,7 +31,7 @@ jobs:
         key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile') }} # change your gemfile path
         restore-keys: |
           ${{ runner.os }}-gems-
-    - uses: MeilCli/danger-action@v4
+    - uses: MeilCli/danger-action@v5
       with:
         plugins_file: 'Gemfile'
         install_path: 'vendor/bundle'
@@ -40,6 +40,7 @@ jobs:
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+You can also pin to a [specific release](https://github.com/MeilCli/danger-action/releases) version in the format `@v5.x.x`
 
 ## input
 - `danger_version`
@@ -93,7 +94,7 @@ jobs:
         key: ${{ runner.os }}-gems-${{ hashFiles('.github/Gemfile') }} # change your gemfile path
         restore-keys: |
           ${{ runner.os }}-gems-
-    - uses: MeilCli/danger-action@v4
+    - uses: MeilCli/danger-action@v5
       with:
         plugins_file: '.github/Gemfile'
         install_path: 'vendor/bundle'
