@@ -2,9 +2,10 @@
     "name": "danger-action",
     "version": "1.0.0",
     "description": "Danger action for GitHub actions",
-    "main": "index.js",
+    "main": "lib/main.js",
     "scripts": {
         "build": "tsc",
+        "pack": "ncc build",
         "lint": "eslint src/main.ts"
     },
     "keywords": [],
@@ -19,6 +20,7 @@
         "@types/node": "^12.12.52",
         "@typescript-eslint/eslint-plugin": "^2.34.0",
         "@typescript-eslint/parser": "^2.34.0",
+        "@zeit/ncc": "^0.22.3",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.4",
