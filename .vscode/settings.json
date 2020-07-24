@@ -1,0 +1,15 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "extensions.ignoreRecommendations": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.rulers": [120],
+    "prettier.disableLanguages": ["markdown"],
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
