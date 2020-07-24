@@ -11,18 +11,18 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "@actions/core": "^1.2.3",
-        "@actions/exec": "^1.0.3",
+        "@actions/core": "^1.2.4",
+        "@actions/exec": "^1.0.4",
         "@actions/io": "^1.0.2"
     },
     "devDependencies": {
-        "@types/node": "^12.12.30",
-        "@typescript-eslint/eslint-plugin": "^2.24.0",
-        "@typescript-eslint/parser": "^2.24.0",
+        "@types/node": "^12.12.52",
+        "@typescript-eslint/eslint-plugin": "^2.34.0",
+        "@typescript-eslint/parser": "^2.34.0",
         "eslint": "^6.8.0",
-        "eslint-config-prettier": "^6.10.0",
-        "eslint-plugin-prettier": "^3.1.2",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-plugin-prettier": "^3.1.4",
         "prettier": "^1.19.1",
-        "typescript": "^3.8.3"
+        "typescript": "^3.9.7"
     }
 }
