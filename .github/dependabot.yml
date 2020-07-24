@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    reviewers:
+      - 'MeilCli'
+    labels:
+      - 'Dependencies'
+    open-pull-requests-limit: 20
