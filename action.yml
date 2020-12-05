@@ -18,6 +18,9 @@ inputs:
   danger_id:
     description: 'danger id, set identifier string'
     required: true
+  fail_on_stderr_when_danger:
+    description: 'action fail when danger output stderr'
+    default: 'false'
 runs:
   using: 'node12'
   main: 'dist/index.js'
