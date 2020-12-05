@@ -1087,6 +1087,7 @@ function getOption() {
             installPath,
             dangerFile: core.getInput("danger_file", { required: true }),
             dangerId: core.getInput("danger_id", { required: true }),
+            failOnStdErrWhenBundler: core.getInput("fail_on_stderr_when_bundler") == "true",
             failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true",
         };
     });
@@ -1121,12 +1122,12 @@ function installDanger(option) {
         else {
             if (option.installPath == null) {
                 yield exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
-                    failOnStdErr: true,
+                    failOnStdErr: option.failOnStdErrWhenBundler,
                 });
             }
             else {
                 yield exec.exec(`bundle install --path=${option.installPath} --jobs 4 --retry 3`, undefined, {
-                    failOnStdErr: true,
+                    failOnStdErr: option.failOnStdErrWhenBundler,
                 });
             }
         }
