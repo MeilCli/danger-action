@@ -2,6 +2,9 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "extensions.ignoreRecommendations": false,
     "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
     "editor.formatOnPaste": true,
     "editor.rulers": [120],
     "prettier.disableLanguages": ["markdown"],
