@@ -59,6 +59,10 @@ You can also pin to a [specific release](https://github.com/MeilCli/danger-actio
 - `danger_id`
   - required
   - danger id is an identifier string, example(`danger-pr`, `danger-CI`, etc..)
+- `fail_on_stderr_when_bundler`
+  - optional
+  - action fail when bundler output stderr
+  - default: `false`
 - `fail_on_stderr_when_danger`
   - optional
   - action fail when danger output stderr

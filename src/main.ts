@@ -11,6 +11,7 @@ interface Option {
     readonly installPath: string | null;
     readonly dangerFile: string;
     readonly dangerId: string;
+    readonly failOnStdErrWhenBundler: boolean;
     readonly failOnStdErrWhenDanger: boolean;
 }
 
@@ -32,6 +33,7 @@ async function getOption(): Promise<Option> {
         installPath,
         dangerFile: core.getInput("danger_file", { required: true }),
         dangerId: core.getInput("danger_id", { required: true }),
+        failOnStdErrWhenBundler: core.getInput("fail_on_stderr_when_bundler") == "true",
         failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true",
     };
 }
@@ -64,11 +66,11 @@ async function installDanger(option: Option) {
     } else {
         if (option.installPath == null) {
             await exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
-                failOnStdErr: true,
+                failOnStdErr: option.failOnStdErrWhenBundler,
             });
         } else {
             await exec.exec(`bundle install --path=${option.installPath} --jobs 4 --retry 3`, undefined, {
-                failOnStdErr: true,
+                failOnStdErr: option.failOnStdErrWhenBundler,
             });
         }
     }
