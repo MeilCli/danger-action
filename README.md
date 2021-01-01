@@ -109,5 +109,8 @@ jobs:
 ```
 danger-action can escape path of `Gemfile`. so you can put Gemfile on no-current directory.
 
+## Contributing
+see [Contributing.md](./.github/CONTRIBUTING.md)
+
 ## License
 [MIT License](LICENSE).
