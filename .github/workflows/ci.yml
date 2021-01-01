@@ -42,6 +42,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-gems-
       - uses: ./
+        # not run on pull request, because cannot access secret from pull request by forked reposiotry
+        if: github.event_name != 'pull_request'
         with:
           plugins_file: '.github/Gemfile'
           install_path: 'vendor/bundle'
