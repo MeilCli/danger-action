@@ -6,6 +6,8 @@ updates:
       interval: 'daily'
     reviewers:
       - 'MeilCli'
+    assignees:
+      - 'MeilCli'
     labels:
       - 'Dependencies'
     open-pull-requests-limit: 20
