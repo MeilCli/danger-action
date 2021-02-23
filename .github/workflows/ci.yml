@@ -20,8 +20,21 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('package.json') }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ hashFiles('package.json') }}-
+            ${{ runner.OS }}-build-
       - run: npm install
       - run: npm run build
+      - run: npm run lint:report
+        continue-on-error: true
+      - uses: ataylorme/eslint-annotate-action@1.1.2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          report-json: 'eslint_report.json'
       - run: npm run pack
         if: github.event_name != 'pull_request'
       - name: Create Pull Request
@@ -66,7 +79,7 @@ jobs:
         run: npm install
         env:
           CI: true
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-danger-gems-${{ hashFiles('Gemfile') }}
