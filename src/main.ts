@@ -18,7 +18,7 @@ interface Option {
 const escapeGemfilePath = path.join(process.env.HOME as string, "danger-action", "Gemfile");
 const escapeGemfileLockPath = path.join(process.env.HOME as string, "danger-action", "Gemfile.lock");
 
-async function getOption(): Promise<Option> {
+async function getOption():Promise<Option> {
     let pluginsFile: string | null = core.getInput("plugins_file");
     if (pluginsFile.length == 0) {
         pluginsFile = null;
@@ -51,7 +51,7 @@ async function escapeGemfile(option: Option) {
     ) {
         return;
     }
-    if (fs.existsSync("Gemfile")) {
+    if (fs.existsSync('Gemfile')) {
         io.mv("Gemfile", escapeGemfilePath);
     }
     if (fs.existsSync("Gemfile.lock")) {
