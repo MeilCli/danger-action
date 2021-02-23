@@ -6,7 +6,8 @@
     "scripts": {
         "build": "tsc",
         "pack": "ncc build",
-        "lint": "eslint src/main.ts"
+        "lint": "eslint src/**/*.ts",
+        "lint:report": "eslint --output-file eslint_report.json --format json src/**/*.ts"
     },
     "keywords": [],
     "author": "",
