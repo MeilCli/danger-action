@@ -15,6 +15,10 @@ on:
       pre_release:
         description: 'pre release, true or false'
         default: 'false'
+  schedule:
+    # UTC: every 1st and 15th day of month at 9:00
+    # JST: every 1st and 15th day of month at 0:00
+    - cron: '0 9 1,15 * *'
 
 jobs:
   release:
