@@ -31,10 +31,11 @@ jobs:
       - run: npm run build
       - run: npm run lint:report
         continue-on-error: true
-      - uses: ataylorme/eslint-annotate-action@1.1.2
+      - uses: actions/upload-artifact@v2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          report-json: 'eslint_report.json'
+          name: result
+          path: |
+            eslint_report.json
       - run: npm run pack
         if: github.event_name != 'pull_request'
       - name: Create Pull Request

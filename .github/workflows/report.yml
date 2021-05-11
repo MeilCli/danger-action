@@ -1,0 +1,28 @@
+name: Report
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ci.yml
+          run_id: ${{ github.event.workflow_run.id }}
+          name: result
+      - name: Transform report file
+        uses: MeilCli/common-lint-reporter/transformer/eslint@v0
+        with:
+          report_files: |
+            eslint_report.json
+      - name: Report lint result
+        uses: MeilCli/common-lint-reporter@v0
+        with:
+          report_type: 'check_run'
+          report_name: 'Lint Report'
