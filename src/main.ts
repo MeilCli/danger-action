@@ -52,12 +52,12 @@ async function escapeGemfile(option: Option) {
         return;
     }
     if (fs.existsSync("Gemfile")) {
-        io.mv("Gemfile", escapeGemfilePath);
+        await io.mv("Gemfile", escapeGemfilePath);
     }
     if (fs.existsSync("Gemfile.lock")) {
-        io.mv("Gemfile.lock", escapeGemfileLockPath);
+        await io.mv("Gemfile.lock", escapeGemfileLockPath);
     }
-    io.cp(option.pluginsFile, "Gemfile");
+    await io.cp(option.pluginsFile, "Gemfile");
 }
 
 async function installDanger(option: Option) {
