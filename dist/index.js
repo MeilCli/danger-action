@@ -78,12 +78,12 @@ function escapeGemfile(option) {
             return;
         }
         if (fs.existsSync("Gemfile")) {
-            io.mv("Gemfile", escapeGemfilePath);
+            yield io.mv("Gemfile", escapeGemfilePath);
         }
         if (fs.existsSync("Gemfile.lock")) {
-            io.mv("Gemfile.lock", escapeGemfileLockPath);
+            yield io.mv("Gemfile.lock", escapeGemfileLockPath);
         }
-        io.cp(option.pluginsFile, "Gemfile");
+        yield io.cp(option.pluginsFile, "Gemfile");
     });
 }
 function installDanger(option) {
