@@ -7,7 +7,6 @@
     },
     "editor.formatOnPaste": true,
     "editor.rulers": [120],
-    "prettier.disableLanguages": ["markdown"],
     "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
