@@ -1,22 +1,22 @@
 name: Check Package
 
-on: 
+on:
   schedule:
     - cron: '0 8 * * 5'
 jobs:
   npm:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: npm install
-    - uses: MeilCli/npm-update-check-action@master
-      id: outdated
-    - uses: 8398a7/action-slack@v2
-      if: steps.outdated.outputs.has_npm_update != 'false'
-      with:
-        status: ${{ job.status }}
-        text: ${{ steps.outdated.outputs.npm_update_text }}
-        author_name: GitHub Actions
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - uses: actions/checkout@v3
+      - run: npm install
+      - uses: MeilCli/npm-update-check-action@master
+        id: outdated
+      - uses: 8398a7/action-slack@v2
+        if: steps.outdated.outputs.has_npm_update != 'false'
+        with:
+          status: ${{ job.status }}
+          text: ${{ steps.outdated.outputs.npm_update_text }}
+          author_name: GitHub Actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

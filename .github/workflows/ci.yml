@@ -13,11 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
       - uses: actions/cache@v2
@@ -31,7 +31,7 @@ jobs:
       - run: npm run build
       - run: npm run lint:report
         continue-on-error: true
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: result
           path: |
@@ -49,7 +49,7 @@ jobs:
           assignees: 'MeilCli'
           reviewers: 'MeilCli'
           branch: 'update/action'
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
@@ -69,11 +69,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
       - name: npm install
