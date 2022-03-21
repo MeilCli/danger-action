@@ -29,15 +29,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
@@ -47,115 +38,99 @@ const path = __importStar(__nccwpck_require__(17));
 const fs = __importStar(__nccwpck_require__(147));
 const escapeGemfilePath = path.join(process.env.HOME, "danger-action", "Gemfile");
 const escapeGemfileLockPath = path.join(process.env.HOME, "danger-action", "Gemfile.lock");
-function getOption() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let pluginsFile = core.getInput("plugins_file");
-        if (pluginsFile.length == 0) {
-            pluginsFile = null;
-        }
-        let installPath = core.getInput("install_path");
-        if (installPath.length == 0) {
-            installPath = null;
-        }
-        return {
-            dangerVersion: core.getInput("danger_version", { required: true }),
-            pluginsFile,
-            installPath,
-            dangerFile: core.getInput("danger_file", { required: true }),
-            dangerId: core.getInput("danger_id", { required: true }),
-            failOnStdErrWhenBundler: core.getInput("fail_on_stderr_when_bundler") == "true",
-            failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true",
-        };
-    });
+async function getOption() {
+    let pluginsFile = core.getInput("plugins_file");
+    if (pluginsFile.length == 0) {
+        pluginsFile = null;
+    }
+    let installPath = core.getInput("install_path");
+    if (installPath.length == 0) {
+        installPath = null;
+    }
+    return {
+        dangerVersion: core.getInput("danger_version", { required: true }),
+        pluginsFile,
+        installPath,
+        dangerFile: core.getInput("danger_file", { required: true }),
+        dangerId: core.getInput("danger_id", { required: true }),
+        failOnStdErrWhenBundler: core.getInput("fail_on_stderr_when_bundler") == "true",
+        failOnStdErrWhenDanger: core.getInput("fail_on_stderr_when_danger") == "true",
+    };
 }
-function checkEnvironment() {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield io.which("ruby", true);
-        yield io.which("bundle", true);
-    });
+async function checkEnvironment() {
+    await io.which("ruby", true);
+    await io.which("bundle", true);
 }
-function escapeGemfile(option) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (option.pluginsFile == null ||
-            option.pluginsFile.toLowerCase() == "gemfile" ||
-            option.pluginsFile.toLowerCase() == "gemfile.lock") {
-            return;
-        }
-        if (fs.existsSync("Gemfile")) {
-            yield io.mv("Gemfile", escapeGemfilePath);
-        }
-        if (fs.existsSync("Gemfile.lock")) {
-            yield io.mv("Gemfile.lock", escapeGemfileLockPath);
-        }
-        yield io.cp(option.pluginsFile, "Gemfile");
-    });
+async function escapeGemfile(option) {
+    if (option.pluginsFile == null ||
+        option.pluginsFile.toLowerCase() == "gemfile" ||
+        option.pluginsFile.toLowerCase() == "gemfile.lock") {
+        return;
+    }
+    if (fs.existsSync("Gemfile")) {
+        await io.mv("Gemfile", escapeGemfilePath);
+    }
+    if (fs.existsSync("Gemfile.lock")) {
+        await io.mv("Gemfile.lock", escapeGemfileLockPath);
+    }
+    await io.cp(option.pluginsFile, "Gemfile");
 }
-function installDanger(option) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (option.pluginsFile == null) {
-            yield exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
+async function installDanger(option) {
+    if (option.pluginsFile == null) {
+        await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
+    }
+    else {
+        if (option.installPath == null) {
+            await exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
+                failOnStdErr: option.failOnStdErrWhenBundler,
+            });
         }
         else {
-            if (option.installPath == null) {
-                yield exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
-                    failOnStdErr: option.failOnStdErrWhenBundler,
-                });
-            }
-            else {
-                yield exec.exec(`bundle install --path=${option.installPath} --jobs 4 --retry 3`, undefined, {
-                    failOnStdErr: option.failOnStdErrWhenBundler,
-                });
-            }
+            await exec.exec(`bundle install --path=${option.installPath} --jobs 4 --retry 3`, undefined, {
+                failOnStdErr: option.failOnStdErrWhenBundler,
+            });
         }
-    });
+    }
 }
 // ignore:  {RubyPath}/gems/2.6.0/gems/git-1.5.0/lib/git/lib.rb:1029: warning: Insecure world writable dir {RubyBinPath} in PATH, mode 040777
-function ignoreRubyWarning() {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield core.exportVariable("RUBYOPT", "-W0");
-    });
+async function ignoreRubyWarning() {
+    await core.exportVariable("RUBYOPT", "-W0");
 }
-function runDanger(option) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (option.pluginsFile == null) {
-            yield exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
-                failOnStdErr: option.failOnStdErrWhenDanger,
-            });
-        }
-        else {
-            yield exec.exec(`bundle exec danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
-                failOnStdErr: option.failOnStdErrWhenDanger,
-            });
-        }
-    });
+async function runDanger(option) {
+    if (option.pluginsFile == null) {
+        await exec.exec(`danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
+            failOnStdErr: option.failOnStdErrWhenDanger,
+        });
+    }
+    else {
+        await exec.exec(`bundle exec danger --dangerfile=${option.dangerFile} --danger_id=${option.dangerId}`, undefined, {
+            failOnStdErr: option.failOnStdErrWhenDanger,
+        });
+    }
 }
-function unescapeGemfile() {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (fs.existsSync(escapeGemfilePath)) {
-            io.mv(escapeGemfilePath, "Gemfile");
-        }
-        if (fs.existsSync(escapeGemfileLockPath)) {
-            io.mv(escapeGemfileLockPath, "Gemfile.lock");
-        }
-    });
+async function unescapeGemfile() {
+    if (fs.existsSync(escapeGemfilePath)) {
+        io.mv(escapeGemfilePath, "Gemfile");
+    }
+    if (fs.existsSync(escapeGemfileLockPath)) {
+        io.mv(escapeGemfileLockPath, "Gemfile.lock");
+    }
 }
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield checkEnvironment();
-            const option = yield getOption();
-            yield escapeGemfile(option);
-            yield installDanger(option);
-            yield ignoreRubyWarning();
-            yield runDanger(option);
-            yield unescapeGemfile();
+async function run() {
+    try {
+        await checkEnvironment();
+        const option = await getOption();
+        await escapeGemfile(option);
+        await installDanger(option);
+        await ignoreRubyWarning();
+        await runDanger(option);
+        await unescapeGemfile();
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            core.setFailed(error.message);
         }
-        catch (error) {
-            if (error instanceof Error) {
-                core.setFailed(error.message);
-            }
-        }
-    });
+    }
 }
 run();
 
