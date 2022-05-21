@@ -7,7 +7,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
     steps:
       - id: metadata
-        uses: dependabot/fetch-metadata@v1.1.1
+        uses: dependabot/fetch-metadata@v1.3.1
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
       - if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'

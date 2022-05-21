@@ -12,7 +12,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('package.json') }}-${{ hashFiles('package-lock.json') }}
@@ -32,7 +32,7 @@ jobs:
         if: github.event_name != 'pull_request'
       - name: Create Pull Request
         if: github.event_name != 'pull_request'
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.MEILCLI_BOT }}
           commit-message: 'update actions'
@@ -41,7 +41,7 @@ jobs:
           assignees: 'MeilCli'
           reviewers: 'MeilCli'
           branch: 'update/action'
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}
