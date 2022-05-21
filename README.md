@@ -1,5 +1,5 @@
 # danger-action
-![](https://github.com/MeilCli/danger-action/workflows/CI/badge.svg)  
+[![CI-Master](https://github.com/MeilCli/danger-action/actions/workflows/ci-master.yml/badge.svg)](https://github.com/MeilCli/danger-action/actions/workflows/ci-master.yml)  
 Execute [danger](https://github.com/danger/danger) action for GitHub Actions.  
 
 ## Required
