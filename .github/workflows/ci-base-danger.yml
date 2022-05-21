@@ -1,0 +1,34 @@
+on:
+  workflow_call:
+
+jobs:
+  danger:
+    runs-on: ubuntu-latest
+    if: github.event_name  == 'pull_request'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: npm install
+        run: npm install
+        env:
+          CI: true
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-danger-gems-${{ hashFiles('Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-danger-gems-
+      - name: Bundle config
+        run: bundle config path vendor/bundle
+      - uses: ./
+        with:
+          plugins_file: 'Gemfile'
+          danger_file: 'Dangerfile'
+          danger_id: 'danger-pr'
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}

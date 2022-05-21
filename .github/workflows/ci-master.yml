@@ -1,0 +1,11 @@
+name: CI-Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    uses: ./.github/workflows/ci-base-build.yml
+    secrets: inherit
