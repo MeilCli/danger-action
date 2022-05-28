@@ -109,8 +109,11 @@ jobs:
 ```
 danger-action can escape path of `Gemfile`. so you can put Gemfile on no-current directory.
 
-## Contributing
+## Contributes
+[<img src="https://gist.github.com/MeilCli/43c9ea6a92b6ae29bab864c4917824d8/raw/6ef53834e0a5dabf5809900865e4063db96e5841/metrics_contributors.svg">](https://github.com/MeilCli/danger-action/graphs/contributors)
+
+### Could you want to contribute?
 see [Contributing.md](./.github/CONTRIBUTING.md)
 
 ## License
-[MIT License](LICENSE).
+[<img src="https://gist.github.com/MeilCli/43c9ea6a92b6ae29bab864c4917824d8/raw/6ef53834e0a5dabf5809900865e4063db96e5841/metrics_licenses.svg">](LICENSE)
