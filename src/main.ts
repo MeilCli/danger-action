@@ -4,9 +4,13 @@ import * as io from "@actions/io";
 import * as process from "process";
 import * as path from "path";
 import * as fs from "fs";
+import { DangerVersionFileExtractor } from "./danger-version-file-extractor";
+import { AsdfDangerVersionFileExtractor } from "./danger-version-file-extractor/asdf-danger-version-file-extractor";
 
 interface Option {
     readonly dangerVersion: string;
+    readonly dangerVersionFile: string;
+    readonly dangerVersionFileFormat: string;
     readonly pluginsFile: string | null;
     readonly installPath: string | null;
     readonly dangerFile: string;
@@ -29,6 +33,8 @@ async function getOption(): Promise<Option> {
     }
     return {
         dangerVersion: core.getInput("danger_version", { required: true }),
+        dangerVersionFile: core.getInput("danger_version_file"),
+        dangerVersionFileFormat: core.getInput("danger_version_file_format"),
         pluginsFile,
         installPath,
         dangerFile: core.getInput("danger_file", { required: true }),
@@ -62,7 +68,15 @@ async function escapeGemfile(option: Option) {
 
 async function installDanger(option: Option) {
     if (option.pluginsFile == null) {
-        await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
+        let dangerVersionFileExtractor: DangerVersionFileExtractor | null = null;
+        switch (option.dangerVersionFileFormat) {
+            case "asdf":
+                dangerVersionFileExtractor = new AsdfDangerVersionFileExtractor();
+                break;
+        }
+        const dangerVersion =
+            dangerVersionFileExtractor?.getDangerVersionFromFile(option.dangerFile) ?? option.dangerVersion;
+        await exec.exec(`gem install danger --version "${dangerVersion}"`, undefined, { failOnStdErr: true });
     } else {
         if (option.installPath == null) {
             await exec.exec(`bundle install --jobs 4 --retry 3`, undefined, {
