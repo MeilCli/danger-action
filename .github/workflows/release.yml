@@ -32,6 +32,7 @@ jobs:
           node-version: 16
       - run: npm install
       - run: npm run build
+      - run: npm run test
       - uses: MeilCli/bump-release-action@master
         with:
           config_path: '.github/bump.yml'
