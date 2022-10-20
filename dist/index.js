@@ -1,6 +1,61 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 34:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AsdfDangerVersionFileExtractor = void 0;
+const fs = __importStar(__nccwpck_require__(147));
+class AsdfDangerVersionFileExtractor {
+    getDangerVersionFromFile(filePath) {
+        if (filePath.length == 0 || fs.existsSync(filePath) == false) {
+            return undefined;
+        }
+        return this.getDangerVersionFromText(fs.readFileSync(filePath).toString());
+    }
+    getDangerVersionFromText(text) {
+        const lines = text.split(/[\r\n]/);
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith("danger") == false) {
+                continue;
+            }
+            return trimmedLine.substring("danger".length).trim();
+        }
+        return undefined;
+    }
+}
+exports.AsdfDangerVersionFileExtractor = AsdfDangerVersionFileExtractor;
+
+
+/***/ }),
+
 /***/ 109:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -36,6 +91,7 @@ const io = __importStar(__nccwpck_require__(436));
 const process = __importStar(__nccwpck_require__(282));
 const path = __importStar(__nccwpck_require__(17));
 const fs = __importStar(__nccwpck_require__(147));
+const asdf_danger_version_file_extractor_1 = __nccwpck_require__(34);
 const escapeGemfilePath = path.join(process.env.HOME, "danger-action", "Gemfile");
 const escapeGemfileLockPath = path.join(process.env.HOME, "danger-action", "Gemfile.lock");
 async function getOption() {
@@ -49,6 +105,8 @@ async function getOption() {
     }
     return {
         dangerVersion: core.getInput("danger_version", { required: true }),
+        dangerVersionFile: core.getInput("danger_version_file"),
+        dangerVersionFileFormat: core.getInput("danger_version_file_format"),
         pluginsFile,
         installPath,
         dangerFile: core.getInput("danger_file", { required: true }),
@@ -77,7 +135,14 @@ async function escapeGemfile(option) {
 }
 async function installDanger(option) {
     if (option.pluginsFile == null) {
-        await exec.exec(`gem install danger --version "${option.dangerVersion}"`, undefined, { failOnStdErr: true });
+        let dangerVersionFileExtractor = null;
+        switch (option.dangerVersionFileFormat) {
+            case "asdf":
+                dangerVersionFileExtractor = new asdf_danger_version_file_extractor_1.AsdfDangerVersionFileExtractor();
+                break;
+        }
+        const dangerVersion = dangerVersionFileExtractor?.getDangerVersionFromFile(option.dangerFile) ?? option.dangerVersion;
+        await exec.exec(`gem install danger --version "${dangerVersion}"`, undefined, { failOnStdErr: true });
     }
     else {
         if (option.installPath == null) {
