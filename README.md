@@ -47,6 +47,14 @@ You can also pin to a [specific release](https://github.com/MeilCli/danger-actio
   - optional
   - version information with gem styled
   - default: `>= 6.0.0`
+- `danger_version_file`
+  - optional
+  - danger version file
+  - default: `.tool-versions`
+- `danger_version_file_format`
+  - optional
+  - danger version file format. [more detail](./docs/danger-version-file.md)
+  - default: `asdf`
 - `plugins_file`
   - optional
   - gemfile path for danger plugin. if set plugins_file, action do not exec `gem install danger`
