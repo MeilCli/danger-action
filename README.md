@@ -117,6 +117,16 @@ jobs:
 ```
 danger-action can escape path of `Gemfile`. so you can put Gemfile on no-current directory.
 
+## Attention: For repository OSS or using dependabot
+`github-actions` token has not write permission at triggered by `pull_request` that created from forked repository or created by dependabot. This reason is for security
+
+ref: [Keeping your GitHub Actions and workflows secure: Preventing pwn requests](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
+
+In this case, danger cannot use GitHub API because readonly token. And, Using `pull_request_target` is an option, but it have the security concerns.
+
+If your needs is report of lint-result, recommending [MeilCli/common-lint-reporter](https://github.com/MeilCli/common-lint-reporter). Its action resolve this problem by using `workflow_run`.
+see: [More information](https://github.com/MeilCli/common-lint-reporter/blob/master/documents/oss-or-dependabot-usage.md)
+
 ## Contributes
 [<img src="https://gist.github.com/MeilCli/43c9ea6a92b6ae29bab864c4917824d8/raw/6ef53834e0a5dabf5809900865e4063db96e5841/metrics_contributors.svg">](https://github.com/MeilCli/danger-action/graphs/contributors)
 
