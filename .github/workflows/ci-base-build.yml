@@ -40,7 +40,6 @@ jobs:
           title: 'update actions'
           labels: 'Action'
           assignees: 'MeilCli'
-          reviewers: 'MeilCli'
           branch: 'update/action'
       - uses: actions/cache@v3
         with:
