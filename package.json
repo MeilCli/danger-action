@@ -31,7 +31,7 @@
         "jest-circus": "^29.4.0",
         "prettier": "^2.8.3",
         "ts-jest": "^29.0.5",
-        "typescript": "^4.9.4"
+        "typescript": "^4.9.5"
     },
     "jest": {
         "clearMocks": true,
