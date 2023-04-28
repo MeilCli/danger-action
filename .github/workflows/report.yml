@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
     steps:
+      - run: sleep 10s
+        name: wait for API&DB synchronized
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:

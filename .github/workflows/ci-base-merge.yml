@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.actor == 'MeilCli'
     steps:
+      - run: sleep 10s
+        name: wait for API&DB synchronized
+        if: github.event.pull_request.title == 'update actions'
       - uses: actions/github-script@v6
         if: github.event.pull_request.title == 'update actions'
         with:
