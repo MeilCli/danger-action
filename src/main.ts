@@ -106,7 +106,7 @@ async function runDanger(option: Option) {
             undefined,
             {
                 failOnStdErr: option.failOnStdErrWhenDanger,
-            }
+            },
         );
     }
 }
