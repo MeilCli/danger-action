@@ -3,7 +3,7 @@
 Execute [danger](https://github.com/danger/danger) action for GitHub Actions.  
 
 ## Required
-This action must set-up [Ruby](https://github.com/actions/setup-ruby) and Bundler.
+This action must set-up [Ruby](https://github.com/ruby/setup-ruby) and Bundler.
 
 Recommendation: set up Ruby 2.6 or higher
 
@@ -21,11 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request' # if only run pull request when multiple trigger workflow
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.6'
-    - uses: actions/cache@v1
+    - uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile') }} # change your gemfile path
@@ -96,11 +96,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request' # if only run pull request when multiple trigger workflow
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.6'
-    - uses: actions/cache@v1
+    - uses: actions/cache@v3
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('.github/Gemfile') }} # change your gemfile path
