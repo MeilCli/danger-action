@@ -9,7 +9,7 @@ jobs:
       - run: sleep 10s
         name: wait for API&DB synchronized
         if: github.event.pull_request.title == 'update actions'
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         if: github.event.pull_request.title == 'update actions'
         with:
           github-token: ${{ secrets.MEILCLI_BOT }}

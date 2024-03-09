@@ -5,14 +5,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 20
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('package.json') }}-${{ hashFiles('package-lock.json') }}
@@ -24,7 +24,7 @@ jobs:
       - run: npm run test
       - run: npm run lint:report
         continue-on-error: true
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: result
           path: |
@@ -33,7 +33,7 @@ jobs:
         if: github.event_name != 'pull_request'
       - name: Create Pull Request
         if: github.event_name != 'pull_request'
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.MEILCLI_BOT }}
           commit-message: 'update actions'
@@ -41,7 +41,7 @@ jobs:
           labels: 'Action'
           assignees: 'MeilCli'
           branch: 'update/action'
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-build-gems-${{ hashFiles('.github/Gemfile') }}

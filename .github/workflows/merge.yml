@@ -19,7 +19,7 @@ jobs:
     env:
       meilcli_bot: ${{ secrets.MEILCLI_BOT }}
     steps:
-      - uses: reitermarkus/automerge@v1
+      - uses: reitermarkus/automerge@v2
         if: env.meilcli_bot != ''
         with:
           token: ${{ secrets.MEILCLI_BOT }}

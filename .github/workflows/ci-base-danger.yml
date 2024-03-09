@@ -6,10 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name  == 'pull_request'
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 20
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
@@ -17,7 +17,7 @@ jobs:
         run: npm install
         env:
           CI: true
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-danger-gems-${{ hashFiles('Gemfile') }}
