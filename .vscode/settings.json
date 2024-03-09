@@ -3,7 +3,7 @@
     "extensions.ignoreRecommendations": false,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "editor.formatOnPaste": true,
     "editor.rulers": [120],
