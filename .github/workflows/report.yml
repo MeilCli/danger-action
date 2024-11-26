@@ -13,7 +13,7 @@ jobs:
       - run: sleep 10s
         name: wait for API&DB synchronized
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v3
+        uses: dawidd6/action-download-artifact@v6
         with:
           workflow: ci.yml
           run_id: ${{ github.event.workflow_run.id }}
