@@ -1,3 +1,16 @@
+> **This repository is archived.**
+
+**danger-action** is no longer actively maintained.
+
+### For lint result reporting
+If your goal is to report lint results (ESLint, Android Lint, Checkstyle, RuboCop, etc.) on GitHub, please use the recommended replacement:
+
+**[MeilCli/common-lint-reporter](https://github.com/MeilCli/common-lint-reporter)**
+
+It supports many lint formats, offers flexible reporting (check-run / PR comment / inline comments), and solves permission issues with `workflow_run` (especially useful for Dependabot or OSS contributions).
+
+→ [See usage example](https://github.com/MeilCli/common-lint-reporter)
+
 # danger-action
 [![CI-Master](https://github.com/MeilCli/danger-action/actions/workflows/ci-master.yml/badge.svg)](https://github.com/MeilCli/danger-action/actions/workflows/ci-master.yml)  
 Execute [danger](https://github.com/danger/danger) action for GitHub Actions.  
